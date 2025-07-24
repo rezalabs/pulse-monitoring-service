@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Monitor</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+</head>
+<body>
+<div id="app">
+    <header class="app-header">
+        <div class="container">
+            <div class="header-left">
+                <a href="/" class="logo">
+                    <img src="/assets/logo.svg" alt="Pulse Logo">
+                    <h1 id="app-title">Pulse Monitor</h1>
+                </a>
+            </div>
+            <div class="header-right">
+                <button id="logout-btn" class="icon-button hidden" title="Forget Admin Secret">
+                    <img src="/assets/logout.svg" alt="Logout"/>
+                </button>
+                <button id="theme-toggle-btn" class="icon-button" title="Toggle Theme">
+                    <img src="/assets/sun.svg" alt="Light mode" class="theme-icon hidden" id="sun-icon"/>
+                    <img src="/assets/moon.svg" alt="Dark mode" class="theme-icon hidden" id="moon-icon"/>
+                </button>
+                <button id="add-check-btn" class="button-primary">Add New Check</button>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <div id="check-list-container">
+        </div>
+        <div id="pagination-container" class="pagination-container">
+        </div>
+    </main>
+</div>
+
+<div id="modal-backdrop" class="modal-backdrop hidden">
+    <div class="modal">
+        <h2 id="modal-title">Add New Check</h2>
+        <form id="check-form">
+            <input type="hidden" id="check-uuid" name="uuid">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required placeholder="e.g., Daily Infrastructure Report">
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="schedule">Schedule</label>
+                    <input type="text" id="schedule" name="schedule" required placeholder="e.g., 1d">
+                </div>
+                <div class="form-group">
+                    <label for="grace">Grace Period</label>
+                    <input type="text" id="grace" name="grace" required placeholder="e.g., 10m">
+                </div>
+            </div>
+            <p class="form-help">Use formats: 10s (seconds), 15m (minutes), 1h (hours), 1d (days).</p>
+            <div class="modal-actions">
+                <button type="button" id="cancel-btn" class="button-secondary">Cancel</button>
+                <button type="submit" class="button-primary">Save Check</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="secret-modal-backdrop" class="modal-backdrop hidden">
+    <div class="modal">
+        <h2 id="secret-modal-title">Admin Authorization Required</h2>
+        <form id="secret-form">
+            <div class="form-group">
+                <label for="admin-secret">Admin Secret</label>
+                <input type="password" id="admin-secret" name="admin-secret" required>
+            </div>
+            <div class="form-group">
+                <label for="remember-duration">Remember for</label>
+                <select id="remember-duration" name="remember-duration">
+                    <option value="0">Don't remember</option>
+                    <option value="900">15 minutes</option>
+                    <option value="3600">1 hour</option>
+                    <option value="session">This session only</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="secret-cancel-btn" class="button-secondary">Cancel</button>
+                <button type="submit" class="button-primary">Confirm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
