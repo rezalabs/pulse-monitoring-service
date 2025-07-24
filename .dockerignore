@@ -1,0 +1,12 @@
+# Prevent local development artifacts from being copied into the container
+node_modules
+npm-debug.log
+
+# Prevent environment secrets from being included in the image
+.env
+
+# Common OS and editor files
+.DS_Store
+*.swo
+*~
+.vscode/
