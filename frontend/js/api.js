@@ -2,7 +2,7 @@
  * @file API wrapper for interacting with the Pulse backend.
  */
 
-const API_BASE = '/api/v1'
+const API_BASE = '/api/v1';
 
 /**
  * A helper function to handle fetch requests and JSON parsing.
@@ -10,76 +10,74 @@ const API_BASE = '/api/v1'
  * @param {object} options - The options for the fetch request.
  * @returns {Promise<object>} - The JSON response.
  */
-async function fetchJson (url, options = {}) {
-  const response = await fetch(url, options)
+async function fetchJson(url, options = {}) {
+  const response = await fetch(url, options);
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: response.statusText }))
-    throw new Error(errorData.message || 'An API error occurred.')
+    const errorData = await response.json().catch(() => ({ message: response.statusText }));
+    throw new Error(errorData.message || 'An API error occurred.');
   }
-  // Handle responses with no content, like DELETE
   if (response.status === 204) {
-    return null
+    return null;
   }
-  return response.json()
+  return response.json();
 }
 
-/**
- * Fetches all checks from the backend with pagination.
- * @param {object} params - Pagination parameters.
- * @param {number} params.page - The page number to fetch.
- * @param {number} params.limit - The number of items per page.
- * @returns {Promise<{checks: Array<object>, meta: object}>} - A list of check objects and pagination metadata.
- */
-function getChecks ({ page = 1, limit = 50 }) {
-  return fetchJson(`${API_BASE}/checks?page=${page}&limit=${limit}`)
+/** Fetches application configuration info. */
+function getAppConfig() {
+  return fetchJson(`${API_BASE}/config`);
 }
 
-/**
- * Creates a new check.
- * @param {object} data - The check data { name, schedule, grace }.
- * @param {string} adminSecret - The admin secret key.
- * @returns {Promise<object>} - The newly created check object.
- */
-function createCheck (data, adminSecret) {
+
+/** Fetches all checks from the backend with pagination. */
+function getChecks({ page = 1, limit = 50 }) {
+  return fetchJson(`${API_BASE}/checks?page=${page}&limit=${limit}`);
+}
+
+/** Creates a new check. */
+function createCheck(data, adminSecret) {
   return fetchJson(`${API_BASE}/checks`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${adminSecret}`
+      'Authorization': `Bearer ${adminSecret}`
     },
     body: JSON.stringify(data)
-  })
+  });
 }
 
-/**
- * Deletes a check.
- * @param {string} uuid - The UUID of the check to delete.
- * @param {string} adminSecret - The admin secret key.
- * @returns {Promise<null>}
- */
-function deleteCheck (uuid, adminSecret) {
+/** Deletes a check. */
+function deleteCheck(uuid, adminSecret) {
   return fetchJson(`${API_BASE}/checks/${uuid}`, {
     method: 'DELETE',
-    headers: { Authorization: `Bearer ${adminSecret}` }
-  })
+    headers: { 'Authorization': `Bearer ${adminSecret}` }
+  });
 }
 
-/**
- * Toggles the maintenance mode for a check.
- * @param {string} uuid - The UUID of the check.
- * @param {string} adminSecret - The admin secret key.
- * @returns {Promise<object>} - The updated check object.
- */
-function toggleMaintenance (uuid, adminSecret) {
+/** Toggles the maintenance mode for a check. */
+function toggleMaintenance(uuid, adminSecret) {
   return fetchJson(`${API_BASE}/checks/${uuid}/maintenance`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${adminSecret}` }
-  })
+    headers: { 'Authorization': `Bearer ${adminSecret}` }
+  });
+}
+
+/** Reports an explicit failure for a check. */
+function failCheck(uuid, reason, adminSecret) {
+  return fetchJson(`${API_BASE}/checks/${uuid}/fail`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${adminSecret}`
+    },
+    body: JSON.stringify({ reason })
+  });
 }
 
 window.pulseApi = {
+  getAppConfig,
   getChecks,
   createCheck,
   deleteCheck,
-  toggleMaintenance
-}
+  toggleMaintenance,
+  failCheck,
+};
