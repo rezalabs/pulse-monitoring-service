@@ -1,2 +1,7 @@
+# Ignore all files in this directory.
 *
-!.git*
+
+# Do not ignore the .gitkeep file.
+# This ensures the empty directory is tracked by Git,
+# so it exists for the application to write to upon first run.
+!.gitkeep
