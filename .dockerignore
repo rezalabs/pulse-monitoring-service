@@ -1,9 +1,19 @@
 # Prevent local development artifacts from being copied into the container
 node_modules
 npm-debug.log
+logs
+*.log
+report.*.json
 
 # Prevent environment secrets from being included in the image
 .env
+.env.*
+!.env.example
+
+# Git and repository advisory files
+.git
+.gitignore
+README.md.advisory
 
 # Common OS and editor files
 .DS_Store
