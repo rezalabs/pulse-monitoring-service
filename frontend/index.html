@@ -18,10 +18,10 @@
                 </a>
             </div>
             <div class="header-right">
-                <button id="logout-btn" class="icon-button hidden" title="Forget Admin Secret">
-                    <img src="/assets/logout.svg" alt="Logout"/>
+                <button id="logout-btn" class="icon-button hidden" aria-label="Logout">
+                    <img src="/assets/logout.svg" alt="" role="presentation"/>
                 </button>
-                <button id="theme-toggle-btn" class="icon-button" title="Toggle Theme">
+                <button id="theme-toggle-btn" class="icon-button" aria-label="Toggle Theme">
                     <img src="/assets/sun.svg" alt="Light mode" class="theme-icon hidden" id="sun-icon"/>
                     <img src="/assets/moon.svg" alt="Dark mode" class="theme-icon hidden" id="moon-icon"/>
                 </button>
@@ -30,16 +30,16 @@
         </div>
     </header>
     <main class="container">
-        <div id="check-list-container">
+        <div id="check-list-container" aria-live="polite" aria-atomic="true">
         </div>
         <div id="pagination-container" class="pagination-container">
         </div>
     </main>
 </div>
 
-<div id="modal-backdrop" class="modal-backdrop hidden">
-    <div class="modal">
-        <h2 id="modal-title">Add New Check</h2>
+<div id="check-modal-backdrop" class="modal-backdrop hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="check-modal-title">
+        <h2 id="check-modal-title">Add New Check</h2>
         <form id="check-form">
             <input type="hidden" id="check-uuid" name="uuid">
             <div class="form-group">
@@ -58,7 +58,7 @@
             </div>
             <p class="form-help">Use formats: 10s (seconds), 15m (minutes), 1h (hours), 1d (days).</p>
             <div class="modal-actions">
-                <button type="button" id="cancel-btn" class="button-secondary">Cancel</button>
+                <button type="button" id="check-cancel-btn" class="button-secondary">Cancel</button>
                 <button type="submit" class="button-primary">Save Check</button>
             </div>
         </form>
@@ -66,27 +66,32 @@
 </div>
 
 <div id="secret-modal-backdrop" class="modal-backdrop hidden">
-    <div class="modal">
-        <h2 id="secret-modal-title">Admin Authorization Required</h2>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="secret-modal-title">
+        <h2 id="secret-modal-title">Admin Login</h2>
         <form id="secret-form">
             <div class="form-group">
                 <label for="admin-secret">Admin Secret</label>
                 <input type="password" id="admin-secret" name="admin-secret" required>
-            </div>
-            <div class="form-group">
-                <label for="remember-duration">Remember for</label>
-                <select id="remember-duration" name="remember-duration">
-                    <option value="0">Don't remember</option>
-                    <option value="900">15 minutes</option>
-                    <option value="3600">1 hour</option>
-                    <option value="session">This session only</option>
-                </select>
+                <p id="secret-error-msg" class="form-help" style="color: var(--danger-color); margin-top: 0.5rem;" role="alert"></p>
             </div>
             <div class="modal-actions">
                 <button type="button" id="secret-cancel-btn" class="button-secondary">Cancel</button>
-                <button type="submit" class="button-primary">Confirm</button>
+                <button type="submit" class="button-primary">Login</button>
             </div>
         </form>
+    </div>
+</div>
+
+<div id="confirm-modal-backdrop" class="modal-backdrop hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+        <h2 id="confirm-modal-title">Are you sure?</h2>
+        <div id="confirm-modal-content" class="modal-content">
+            This action cannot be undone.
+        </div>
+        <div class="modal-actions">
+            <button type="button" id="confirm-cancel-btn" class="button-secondary">Cancel</button>
+            <button type="button" id="confirm-action-btn" class="button-primary">Confirm</button>
+        </div>
     </div>
 </div>
 

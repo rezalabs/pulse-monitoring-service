@@ -107,6 +107,9 @@ html[data-theme="light"] .button-primary:hover { background-color: #229342; }
 .button-secondary { background-color: var(--button-bg); color: var(--text-color); }
 .button-secondary:hover { border-color: var(--text-secondary-color); background-color: var(--button-hover-bg); }
 
+.button-danger { background-color: var(--danger-color); border-color: var(--danger-color); color: #fff; }
+.button-danger:hover { background-color: color-mix(in srgb, var(--danger-color) 90%, #fff); }
+
 .icon-button { padding: 8px; background-color: transparent; border: none; color: var(--icon-color); }
 .icon-button:hover { color: var(--icon-hover-color); background-color: var(--button-hover-bg); }
 .icon-button svg { width: 18px; height: 18px; }
@@ -150,6 +153,11 @@ html[data-theme="light"] .button-primary:hover { background-color: #229342; }
 .check-item .details {
     color: var(--text-secondary-color);
     font-size: 0.875rem;
+}
+
+/* ADDED: Style for schedule info */
+.check-item .schedule-info {
+    margin-top: 4px;
 }
 
 .check-item .error-reason {
@@ -226,6 +234,10 @@ html[data-theme="light"] .button-primary:hover { background-color: #229342; }
 .modal h2 {
     margin: 0 0 1.5rem 0;
     font-size: 1.25rem;
+}
+.modal-content {
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary-color);
 }
 .modal-actions {
     display: flex;
