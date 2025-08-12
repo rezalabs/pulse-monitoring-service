@@ -6,7 +6,12 @@ import NodeCache from 'node-cache'
  */
 const standardTTL = 10 // 10 seconds
 
-const cache = new NodeCache({ stdTTL: standardTTL, checkperiod: 120 })
+/**
+ * Caching layer for the application.
+ * useClones: false - improves performance by returning direct references. This is safe
+ * as the data retrieved from the database is immutable for the duration of a request.
+ */
+const cache = new NodeCache({ stdTTL: standardTTL, useClones: false })
 
 console.log('In-memory cache system initialized.')
 
